@@ -1,6 +1,9 @@
 package com.example.alebirthdayreminders2;
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -25,6 +28,16 @@ public class NotifyTestingActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.notify_testing, menu);
 		return true;
+	}
+
+	public void setAlarm(View v) {
+		// Set alarm time to X seconds from now.
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, 10);
+
+		AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		        AlarmManager.INTERVAL_DAY, getPendingIntent());
 	}
 
 	public void showNotification(View v) {
