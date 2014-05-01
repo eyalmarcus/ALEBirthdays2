@@ -6,7 +6,7 @@ import org.apache.http.impl.cookie.DateUtils;
 
 public class Person implements Comparable<Person> {
 
-	private int id;
+	private int id = -1;
 	private Date birthday;
 	private String name;
 	private String email;

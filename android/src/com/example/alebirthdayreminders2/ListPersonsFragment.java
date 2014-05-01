@@ -1,6 +1,7 @@
 package com.example.alebirthdayreminders2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,11 +30,30 @@ public class ListPersonsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_edit_person,
+		View rootView = inflater.inflate(R.layout.fragment_list_persons,
 				container, false);
 		listView = (ListView) rootView.findViewById(R.id.persons_list);
 		adapter = new PersonListAdapter(getActivity());
-		// TODO Auto-generated method stub
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				((EditPerson) getActivity()).editPerson(Integer.valueOf((int)id));
+			}
+			
+		});
+		
+		Button button = (Button) rootView.findViewById(R.id.list_add_person);
+		button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditPerson activity = (EditPerson) getActivity();
+				activity.editPerson(null);
+			}
+		});
 		return rootView;
 	}
 	
@@ -41,7 +65,9 @@ public class ListPersonsFragment extends Fragment {
 		
 		PersonListAdapter(Context context) {
 			this.context = context;
+			personCache = new HashMap<Integer, Person>();
 			personProvider = new PersonList();
+			personProvider.initialize(context);
 			ids = new ArrayList<Integer>();
 			refreshDataSet();
 		}
@@ -52,7 +78,12 @@ public class ListPersonsFragment extends Fragment {
 				@Override
 				protected Void doInBackground(Void... params) {
 					// TODO(eyalma): get ids from personProvider.
-					ids = null;
+					ArrayList<Integer> new_ids = new ArrayList<Integer>();
+					int[] ids_array = personProvider.getPersonIds();
+					for (int index = 0; index < ids_array.length; ++index) {
+						new_ids.add(ids_array[index]);
+					}
+					ids = new_ids;
 					return null;
 				}
 				
@@ -65,7 +96,6 @@ public class ListPersonsFragment extends Fragment {
 		
 		void invalidateCacheEntry(Integer id) {
 			personCache.remove(id);
-			notifyDataSetChanged();
 		}
 		
 		public void updateList(String namePrefix) {
@@ -92,7 +122,7 @@ public class ListPersonsFragment extends Fragment {
 		@Override
 		public View getView(int index, View convertView, ViewGroup parent) {
 			View entry;
-			Integer id = ids.get(index);
+			final Integer id = ids.get(index);
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater)context.getSystemService(
 						Context.LAYOUT_INFLATER_SERVICE);
@@ -105,7 +135,20 @@ public class ListPersonsFragment extends Fragment {
 				((TextView) entry.findViewById(R.id.person_entry_name))
 					.setText(person.getName());
 			} else {
-				// TODO(eyalma): AsyncTask
+				new AsyncTask<Integer, Void, Void>() {
+
+					@Override
+					protected Void doInBackground(Integer... params) {
+						Person person = personProvider.getPersonById(params[0]);
+						personCache.put(params[0], person);
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result) {
+						notifyDataSetChanged();
+					}
+				};
 			}
 			
 			return entry;
@@ -115,8 +158,9 @@ public class ListPersonsFragment extends Fragment {
 
 	// Recalculates the list (e.g. if a name changed).
 	public void updatePerson(Integer id) {
-		adapter.invalidateCacheEntry(id);
-		// TODO Auto-generated method stub
-		
+		if (id != null) {
+			adapter.invalidateCacheEntry(id);
+		}
+		adapter.notifyDataSetChanged();
 	}
 }
