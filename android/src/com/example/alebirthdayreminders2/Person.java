@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.apache.http.impl.cookie.DateUtils;
 
-public class Person {
+public class Person implements Comparable<Person> {
 
 	private int id;
 	private Date birthday;
@@ -73,4 +73,7 @@ public class Person {
 		return DateUtils.formatDate(this.birthday);
 	}
 	
+	public int compareTo(Person other) {
+		return this.getBirthday().compareTo(other.getBirthday());
+	}
 }
