@@ -41,7 +41,7 @@ public class EditPersonFragment extends Fragment {
 		}
 		// TODO: Refresh the other view.
 		// TODO(eyalma): Maybe move save action to background.
-		((EditPerson) getActivity()).notifyPersonChanged();
+		((EditPerson) getActivity()).personSaved();
 	}
 
 	@Override
