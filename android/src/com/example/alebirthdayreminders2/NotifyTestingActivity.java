@@ -1,8 +1,9 @@
 package com.example.alebirthdayreminders2;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 public class NotifyTestingActivity extends Activity {
 
@@ -19,4 +20,7 @@ public class NotifyTestingActivity extends Activity {
 		return true;
 	}
 
+	public void showNotification(View v) {
+		
+	}
 }
