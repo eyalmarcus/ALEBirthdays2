@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/person_entry_name"
+        android:layout_width="20sp"
+        android:text="name"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/person_entry_date"
+        android:layout_width="20sp"
+        android:text="date"
+        android:layout_height="wrap_content" />
+
+    <!-- TODO(eyalma): Make image. -->
+    <TextView
+        android:id="@+id/person_entry_image"
+        android:text="image"
+        android:layout_width="20sp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
