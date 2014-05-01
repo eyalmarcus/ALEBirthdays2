@@ -33,16 +33,14 @@ public class NotifyTestingActivity extends Activity {
 				.setSmallIcon(R.drawable.notification_icon)
 				.setContentTitle("Birthday notification")
 				.setContentText("Your friend momo has a birthday")
-				.setContentIntent(getEmailIntent());
+				.setContentIntent(getPendingIntent());
 
 		NotificationManager mNotificationManager =
 			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			// mId allows you to update the notification later on.
 			mNotificationManager.notify(0, mBuilder.build());
-
 	}
 
-	private PendingIntent getEmailIntent() {
+	private Intent getEmailIntent() {
 		String uriText =
 		    "mailto:youremail@gmail.com" +
 		    "?subject=" + Uri.encode("Happy birthday! יום הולדת שמח");
@@ -51,8 +49,12 @@ public class NotifyTestingActivity extends Activity {
 		Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
 		sendIntent.setData(uri);
 
+		return sendIntent;
+	}
+
+	private PendingIntent getPendingIntent() {
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		stackBuilder.addNextIntent(sendIntent);
+		stackBuilder.addNextIntent(getEmailIntent());
 		PendingIntent pendingIntent =
 		        stackBuilder.getPendingIntent(
 		            0,
