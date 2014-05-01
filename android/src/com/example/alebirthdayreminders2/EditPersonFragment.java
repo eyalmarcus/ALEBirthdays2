@@ -3,12 +3,13 @@ package com.example.alebirthdayreminders2;
 import java.util.Date;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,6 +20,7 @@ public class EditPersonFragment extends Fragment {
 	Integer personId;
 	EditText nameField;
 	Button saveButton;
+	Button photoButton;
 	
 	public EditPersonFragment() {
 	}
@@ -65,6 +67,15 @@ public class EditPersonFragment extends Fragment {
 		// TODO(eyalma): Get id if it was just created.
 		((EditPerson) getActivity()).personSaved(personId);
 	}
+	
+	public void getPersonPhoto() {
+		/*
+		Intent intent = new Intent(Intent.ACTION_GET_CONTEXT);
+		intent.setType("image/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		startActivityForResult(intent, REQUEST_CODE);
+		*/
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +94,15 @@ public class EditPersonFragment extends Fragment {
 				savePerson();
 			}
 		});
+		photoButton = (Button) rootView.findViewById(R.id.person_photo);
+		photoButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View button) {
+				getPersonPhoto();
+			}
+		});
+		
 		
 		return rootView;
 	}
