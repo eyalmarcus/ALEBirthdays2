@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,6 +12,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/person_name_label" />
 
-</RelativeLayout>
+    <EditText
+        android:id="@+id/person_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/person_name_hint" />
+
+    <TextView
+        android:id="@+id/person_birth_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/person_birth_date_label" />
+
+    <!-- Change to ImageView. Add OnClick for changes -->
+
+    <TextView
+        android:id="@+id/person_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="image placeholder" />
+
+    <!-- TODO(eyalma): Move to action bar. -->
+
+    <Button
+        android:id="@+id/person_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/person_save" />
+
+</LinearLayout>

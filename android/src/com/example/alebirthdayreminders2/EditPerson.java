@@ -3,24 +3,27 @@ package com.example.alebirthdayreminders2;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.os.Build;
 
 public class EditPerson extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_person);
-
+		
+		// TODO(eyalma): Choose what to load based on intent.
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new EditPersonFragment()).commit();			
 		}
 	}
 
@@ -45,18 +48,30 @@ public class EditPerson extends Activity {
 	}
 
 	/**
-	 * A placeholder fragment containing a simple view.
+	 * Fragment for editing a person's info.
 	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
+	public static class EditPersonFragment extends Fragment {
+		Integer personId;
+		EditText nameField;
+		
+		public EditPersonFragment() {
+		}
+		
+		public void loadPerson(int id) {
+			
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+
 			View rootView = inflater.inflate(R.layout.fragment_edit_person,
 					container, false);
+
+			nameField = (EditText) rootView.findViewById(R.id.person_name);
+			
+			nameField.setText("some text");
+			
 			return rootView;
 		}
 	}
