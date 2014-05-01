@@ -1,16 +1,13 @@
 package com.example.alebirthdayreminders2;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.os.Build;
 
 public class EditPerson extends Activity {
@@ -27,6 +24,10 @@ public class EditPerson extends Activity {
 		}
 	}
 
+	void notifyPersonChanged() {
+		// TODO: If list fragment is visible, update it.
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -45,35 +46,6 @@ public class EditPerson extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * Fragment for editing a person's info.
-	 */
-	public static class EditPersonFragment extends Fragment {
-		Integer personId;
-		EditText nameField;
-		
-		public EditPersonFragment() {
-		}
-		
-		public void loadPerson(int id) {
-			
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-
-			View rootView = inflater.inflate(R.layout.fragment_edit_person,
-					container, false);
-
-			nameField = (EditText) rootView.findViewById(R.id.person_name);
-			
-			nameField.setText("some text");
-			
-			return rootView;
-		}
 	}
 
 }
