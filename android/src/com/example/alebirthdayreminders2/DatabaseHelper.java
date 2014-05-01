@@ -3,7 +3,7 @@ package com.example.alebirthdayreminders2;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
-	// Getting single Person
+	// Getting single Person. Will return null if doesn't exist.
 	Person getPerson(int id) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
@@ -79,12 +79,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return person;
 	}
 
-	// Getting All Persons
-	public List<Person> getAllPersons() {
-		List<Person> personList = new ArrayList<Person>();
-		// Select All Query
+	// Get All Persons
+	public ArrayList<Person> getAllPersons() {
 		String selectQuery = "SELECT  * FROM " + TABLE_NAME;
 
+		return runSelectAndReturnList(selectQuery);
+	}
+	
+	public ArrayList<Person> getAllPersonsByName() {
+		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + FIELD_NAME;
+
+		return runSelectAndReturnList(selectQuery);
+	}
+	
+	public ArrayList<Person> getPersonsForBirthday(Date date) {
+		String selectQuery = "SELECT * FROM " + TABLE_NAME
+				+ " WHERE " + FIELD_BIRTHDAY + " == " + sdf.format(date);
+
+		return runSelectAndReturnList(selectQuery);
+	}
+	
+	private ArrayList<Person> runSelectAndReturnList(String selectQuery) {
+		ArrayList<Person> personList = new ArrayList<Person>();
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -98,6 +114,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 		}
 		return personList;
+	}
+
+	// Get All Person IDs
+	public int[] getAllPersonIds() {
+		// Select All Query
+		String selectQuery = "SELECT " + FIELD_ID + " FROM " + TABLE_NAME;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		int[] ids = new int[cursor.getCount()];
+
+		cursor.moveToFirst();
+		for (int i = 0; i < ids.length; ++i) {
+			ids[i] = Integer.parseInt(cursor.getString(0));
+			cursor.moveToNext();
+		}
+		return ids;
 	}
 
 	// Updating single Person
