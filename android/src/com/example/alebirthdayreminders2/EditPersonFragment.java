@@ -52,7 +52,7 @@ public class EditPersonFragment extends Fragment {
 	
 	public void createNewPerson() {
 		personId = null;
-		populateInfo(new Person("", "", new Date()));
+		populateInfo(new Person("", "", new Date(), ""));
 	}
 	
 	// Save the person's info.

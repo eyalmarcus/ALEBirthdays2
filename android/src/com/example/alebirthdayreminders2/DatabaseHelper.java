@@ -15,7 +15,7 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "PeopleManager";
 	private static final String TABLE_NAME = "People";
 
@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String FIELD_NAME = "name";
 	private static final String FIELD_EMAIL = "email";
 	private static final String FIELD_BIRTHDAY = "birthday";
+	private static final String FIELD_IMAGE = "image";
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(
 			DATE_FORMAT, Locale.US);
@@ -38,7 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + FIELD_ID
 				+ " INTEGER PRIMARY KEY," + FIELD_NAME + " TEXT," + FIELD_EMAIL
-				+ " TEXT" + FIELD_BIRTHDAY + " TEXT);";
+				+ " TEXT," + FIELD_BIRTHDAY + " TEXT, " 
+				+ FIELD_IMAGE + " TEXT );";
 		db.execSQL(CREATE_TABLE);
 	}
 
@@ -70,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_NAME, new String[] { FIELD_ID,
-				FIELD_NAME, FIELD_EMAIL, FIELD_BIRTHDAY }, FIELD_ID + "=?",
+				FIELD_NAME, FIELD_EMAIL, FIELD_BIRTHDAY, FIELD_IMAGE }, FIELD_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
@@ -168,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		try {
 			person = new Person(Integer.parseInt(cursor.getString(0)),
 					cursor.getString(1), cursor.getString(2), sdf.parse(cursor
-							.getString(3)));
+							.getString(3)), cursor.getString(4));
 		} catch (IllegalArgumentException e) {
 			Log.e("DatabaseHelper",
 					"Unable to parse birthday for " + cursor.getString(1));
@@ -184,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(FIELD_NAME, person.getName()); // Person name
 		values.put(FIELD_EMAIL, person.getEmail());
 		values.put(FIELD_BIRTHDAY, sdf.format(person.getBirthday()));
+		values.put(FIELD_IMAGE, person.getImageLocation());
 		return values;
 	}
 }
