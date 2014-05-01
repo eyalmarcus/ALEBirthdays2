@@ -2,7 +2,11 @@ package com.example.alebirthdayreminders2;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
@@ -26,14 +30,34 @@ public class NotifyTestingActivity extends Activity {
 	public void showNotification(View v) {
 		NotificationCompat.Builder mBuilder =
 			new NotificationCompat.Builder(this)
-			.setSmallIcon(R.drawable.notification_icon)
-			.setContentTitle("Birthday notification")
-			.setContentText("Your friend momo has a birthday");
-		
+				.setSmallIcon(R.drawable.notification_icon)
+				.setContentTitle("Birthday notification")
+				.setContentText("Your friend momo has a birthday")
+				.setContentIntent(getEmailIntent());
+
 		NotificationManager mNotificationManager =
 			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			// mId allows you to update the notification later on.
 			mNotificationManager.notify(0, mBuilder.build());
-			
+
+	}
+
+	private PendingIntent getEmailIntent() {
+		String uriText =
+		    "mailto:youremail@gmail.com" +
+		    "?subject=" + Uri.encode("Happy birthday! יום הולדת שמח");
+		Uri uri = Uri.parse(uriText);
+
+		Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+		sendIntent.setData(uri);
+
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		stackBuilder.addNextIntent(sendIntent);
+		PendingIntent pendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		return pendingIntent;
 	}
 }
