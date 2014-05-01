@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -66,13 +65,7 @@ public class NotifyTestingActivity extends Activity {
 	}
 
 	private PendingIntent getPendingIntent() {
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		stackBuilder.addNextIntent(getEmailIntent());
-		PendingIntent pendingIntent =
-		        stackBuilder.getPendingIntent(
-		            0,
-		            PendingIntent.FLAG_UPDATE_CURRENT
-		        );
-		return pendingIntent;
+		return PendingIntent.getActivity(
+				this, 0, getEmailIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 }
