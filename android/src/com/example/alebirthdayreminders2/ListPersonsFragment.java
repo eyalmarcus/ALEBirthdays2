@@ -54,4 +54,10 @@ public class ListPersonsFragment extends Fragment {
 		}
 		
 	}
+
+	// Recalculates the list (e.g. if a name changed).
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
 }

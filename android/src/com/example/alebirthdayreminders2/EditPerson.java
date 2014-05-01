@@ -24,28 +24,17 @@ public class EditPerson extends Activity {
 		}
 	}
 
-	void notifyPersonChanged() {
+	void personSaved() {
 		// TODO: If list fragment is visible, update it.
+		ListPersonsFragment listPersons =
+				(ListPersonsFragment)getFragmentManager().findFragmentById(R.id.persons_list);
+		if (listPersons != null) {
+		  listPersons.refresh();
+		}
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_person, menu);
-		return true;
+	// If id is null, creates a new person
+	void editPerson(Integer id) {
+		// TODO.
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 }
