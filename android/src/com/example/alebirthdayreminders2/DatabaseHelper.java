@@ -58,10 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	void addPerson(Person person) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		ContentValues values = new ContentValues();
-		values.put(FIELD_NAME, person.getName()); // Person name
-		values.put(FIELD_EMAIL, person.getEmail());
-		values.put(FIELD_BIRTHDAY, sdf.format(person.getBirthday()));
+		ContentValues values = populateValues(person);
 
 		// Inserting Row
 		db.insert(TABLE_NAME, null, values);
@@ -105,18 +102,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// Updating single Person
 	public int updatePerson(Person person) {
-		/*
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		ContentValues values = new ContentValues();
-		values.put(KEY_NAME, Person.getName());
-		values.put(KEY_PH_NO, Person.getPhoneNumber());
+		ContentValues values = populateValues(person);
 
 		// updating row
-		return db.update(TABLE_PersonS, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(Person.getID()) });
-				*/
-		return 1;
+		return db.update(TABLE_NAME, values, FIELD_ID + " = ?",
+				new String[] { String.valueOf(person.getId()) });
 	}
 
 	// Deleting single Person
@@ -152,5 +144,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 					"Unable to parse birthday for " + cursor.getString(1));
 		}
 		return person;
+	}
+	
+	private ContentValues populateValues(Person person) {
+		ContentValues values = new ContentValues();
+		values.put(FIELD_NAME, person.getName()); // Person name
+		values.put(FIELD_EMAIL, person.getEmail());
+		values.put(FIELD_BIRTHDAY, sdf.format(person.getBirthday()));
+		return values;
 	}
 }
