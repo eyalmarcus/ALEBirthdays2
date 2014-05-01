@@ -27,7 +27,8 @@ public class NotificationService extends IntentService {
 				.setSmallIcon(R.drawable.notification_icon)
 				.setContentTitle("Birthday notification")
 				.setContentText("Your friend momo has a birthday")
-				.setContentIntent(getPendingEmailIntent());
+				.setContentIntent(getPendingEmailIntent())
+				.setAutoCancel(true);
 
 		NotificationManager mNotificationManager =
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
