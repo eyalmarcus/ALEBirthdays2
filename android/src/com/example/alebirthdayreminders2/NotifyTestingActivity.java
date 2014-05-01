@@ -1,7 +1,10 @@
 package com.example.alebirthdayreminders2;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.View;
 
@@ -21,6 +24,16 @@ public class NotifyTestingActivity extends Activity {
 	}
 
 	public void showNotification(View v) {
+		NotificationCompat.Builder mBuilder =
+			new NotificationCompat.Builder(this)
+			.setSmallIcon(R.drawable.notification_icon)
+			.setContentTitle("Birthday notification")
+			.setContentText("Your friend momo has a birthday");
 		
+		NotificationManager mNotificationManager =
+			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			// mId allows you to update the notification later on.
+			mNotificationManager.notify(0, mBuilder.build());
+			
 	}
 }
