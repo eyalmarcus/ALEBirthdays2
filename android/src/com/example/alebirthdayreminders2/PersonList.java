@@ -25,7 +25,7 @@ public class PersonList {
 	 * @param person
 	 */
 	public void savePerson(Person person) {
-		if (dbHelper.getPerson(person.getId()) != null) {
+		if (person.getId() != -1 && dbHelper.getPerson(person.getId()) != null) {
 			dbHelper.updatePerson(person);
 		} else {
 			dbHelper.addPerson(person);

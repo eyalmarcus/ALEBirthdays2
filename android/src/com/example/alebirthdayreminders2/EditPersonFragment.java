@@ -5,10 +5,11 @@ import java.util.Date;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,6 +18,7 @@ import android.widget.EditText;
  */
 public class EditPersonFragment extends Fragment {
 	Integer personId;
+	Person person;
 	EditText nameField;
 	Button saveButton;
 	
@@ -31,9 +33,10 @@ public class EditPersonFragment extends Fragment {
 		new AsyncTask<Integer, Integer, Person>() {
 
 			@Override
-			protected Person doInBackground(Integer... id) {
-				// TODO: Get person from db.
-				return null;
+			protected Person doInBackground(Integer... params) {
+				PersonList personList = new PersonList();
+				personList.initialize(getActivity());
+				return personList.getPersonById(params[0]);
 			}
 
 			@Override
@@ -50,20 +53,38 @@ public class EditPersonFragment extends Fragment {
 	
 	public void createNewPerson() {
 		personId = null;
-		populateInfo(new Person("", "", new Date()));
 	}
 	
 	// Save the person's info.
 	public void savePerson() {
+		String name = nameField.getEditableText().toString();
+		Date birthday = new Date();
+		String image = "";
+		String email = "";
+		Person person;
 		if (personId != null) {
-			// TODO
+			person = new Person(personId, email, image, birthday);
+			Log.e("", "Saving existing person.");
 		} else {
-			// TODO
+			person = new Person(name, email, birthday);
+			Log.e("", "Saving new person.");
 		}
-		// TODO: Refresh the other view.
-		// TODO(eyalma): Maybe move save action to background.
-		// TODO(eyalma): Get id if it was just created.
-		((EditPerson) getActivity()).personSaved(personId);
+		new AsyncTask<Person, Void, Void>() {
+			@Override
+			protected Void doInBackground(Person... params) {
+				PersonList personList = new PersonList();
+				personList.initialize(getActivity());
+				personList.savePerson(params[0]);
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				((EditPerson) getActivity()).personSaved(null);
+			}
+			
+			
+		}.execute(person);
 	}
 
 	@Override

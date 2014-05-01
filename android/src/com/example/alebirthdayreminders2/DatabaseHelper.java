@@ -15,7 +15,7 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "PeopleManager";
 	private static final String TABLE_NAME = "People";
 
@@ -38,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + FIELD_ID
 				+ " INTEGER PRIMARY KEY," + FIELD_NAME + " TEXT," + FIELD_EMAIL
-				+ " TEXT" + FIELD_BIRTHDAY + " TEXT);";
+				+ " TEXT," + FIELD_BIRTHDAY + " TEXT);";
 		db.execSQL(CREATE_TABLE);
 	}
 
