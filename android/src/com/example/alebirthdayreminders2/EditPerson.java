@@ -24,12 +24,12 @@ public class EditPerson extends Activity {
 		}
 	}
 
-	void personSaved() {
+	void personSaved(Integer id) {
 		// TODO: If list fragment is visible, update it.
 		ListPersonsFragment listPersons =
 				(ListPersonsFragment)getFragmentManager().findFragmentById(R.id.persons_list);
 		if (listPersons != null) {
-		  listPersons.refresh();
+		  listPersons.updatePerson(id);
 		}
 	}
 	

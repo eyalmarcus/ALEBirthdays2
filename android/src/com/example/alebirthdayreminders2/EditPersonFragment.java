@@ -1,6 +1,9 @@
 package com.example.alebirthdayreminders2;
 
+import java.util.Date;
+
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +25,32 @@ public class EditPersonFragment extends Fragment {
 	
 	// Loads the info of a person for editing.
 	public void loadPerson(int id) {
-		// TODO: get object from db.
 		// TODO: populate fields.
+		// TODO: Warn if current person is not saved.
 		personId = id;
+		new AsyncTask<Integer, Integer, Person>() {
+
+			@Override
+			protected Person doInBackground(Integer... id) {
+				// TODO: Get person from db.
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Person result) {
+				populateInfo(result);
+			}
+			
+		}.execute(id);
+	}
+	
+	void populateInfo(Person person) {
+		nameField.setText(person.getName());
 	}
 	
 	public void createNewPerson() {
 		personId = null;
-		nameField.setText("");
+		populateInfo(new Person("", "", new Date()));
 	}
 	
 	// Save the person's info.
@@ -41,7 +62,8 @@ public class EditPersonFragment extends Fragment {
 		}
 		// TODO: Refresh the other view.
 		// TODO(eyalma): Maybe move save action to background.
-		((EditPerson) getActivity()).personSaved();
+		// TODO(eyalma): Get id if it was just created.
+		((EditPerson) getActivity()).personSaved(personId);
 	}
 
 	@Override
