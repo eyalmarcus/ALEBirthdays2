@@ -1,6 +1,7 @@
 package com.example.alebirthdayreminders2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,6 +34,16 @@ public class ListPersonsFragment extends Fragment {
 				container, false);
 		listView = (ListView) rootView.findViewById(R.id.persons_list);
 		adapter = new PersonListAdapter(getActivity());
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				((EditPerson) getActivity()).editPerson(Integer.valueOf((int)id));
+			}
+			
+		});
 		
 		Button button = (Button) rootView.findViewById(R.id.list_add_person);
 		button.setOnClickListener(new OnClickListener() {
@@ -52,6 +65,7 @@ public class ListPersonsFragment extends Fragment {
 		
 		PersonListAdapter(Context context) {
 			this.context = context;
+			personCache = new HashMap<Integer, Person>();
 			personProvider = new PersonList();
 			personProvider.initialize(context);
 			ids = new ArrayList<Integer>();
@@ -120,14 +134,6 @@ public class ListPersonsFragment extends Fragment {
 				Person person = personCache.get(id);
 				((TextView) entry.findViewById(R.id.person_entry_name))
 					.setText(person.getName());
-				entry.setOnClickListener(new OnClickListener() {
-					Integer personId = id;
-					
-					@Override
-					public void onClick(View v) {
-						((EditPerson) getActivity()).editPerson(personId);
-					}
-				});
 			} else {
 				new AsyncTask<Integer, Void, Void>() {
 

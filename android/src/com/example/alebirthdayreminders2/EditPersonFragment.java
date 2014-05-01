@@ -45,7 +45,7 @@ public class EditPersonFragment extends Fragment {
 				populateInfo(result);
 			}
 			
-		}.execute(id);
+		}.execute(Integer.valueOf(id));
 	}
 	
 	void populateInfo(Person person) {
@@ -59,6 +59,7 @@ public class EditPersonFragment extends Fragment {
 	// Save the person's info.
 	public void savePerson() {
 		String name = nameField.getEditableText().toString();
+		Log.e("", "Saving person with name " + name);
 		Date birthday = new Date();
 		String image = "";
 		String email = "";
