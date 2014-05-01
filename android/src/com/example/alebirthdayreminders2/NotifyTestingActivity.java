@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 public class NotifyTestingActivity extends Activity {
 
@@ -37,6 +38,8 @@ public class NotifyTestingActivity extends Activity {
 		AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 		        AlarmManager.INTERVAL_DAY, getPendingIntent());
+
+		Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_SHORT).show();
 	}
 
 	public void showNotification(View v) {
