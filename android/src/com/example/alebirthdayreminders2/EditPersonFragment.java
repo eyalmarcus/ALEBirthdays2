@@ -21,6 +21,7 @@ public class EditPersonFragment extends Fragment {
 	Person person;
 	EditText nameField;
 	Button saveButton;
+	Button photoButton;
 	
 	public EditPersonFragment() {
 	}
@@ -63,10 +64,10 @@ public class EditPersonFragment extends Fragment {
 		String email = "";
 		Person person;
 		if (personId != null) {
-			person = new Person(personId, email, image, birthday);
+			person = new Person(personId, name, email, birthday, image);
 			Log.e("", "Saving existing person.");
 		} else {
-			person = new Person(name, email, birthday);
+			person = new Person(name, email, birthday, image);
 			Log.e("", "Saving new person.");
 		}
 		new AsyncTask<Person, Void, Void>() {
@@ -86,6 +87,15 @@ public class EditPersonFragment extends Fragment {
 			
 		}.execute(person);
 	}
+	
+	public void getPersonPhoto() {
+		/*
+		Intent intent = new Intent(Intent.ACTION_GET_CONTEXT);
+		intent.setType("image/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		startActivityForResult(intent, REQUEST_CODE);
+		*/
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +114,15 @@ public class EditPersonFragment extends Fragment {
 				savePerson();
 			}
 		});
+		photoButton = (Button) rootView.findViewById(R.id.person_photo);
+		photoButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View button) {
+				getPersonPhoto();
+			}
+		});
+		
 		
 		return rootView;
 	}

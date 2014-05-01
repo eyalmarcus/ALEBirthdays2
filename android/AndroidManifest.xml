@@ -27,6 +27,12 @@
             android:exported="true"
             android:label="@string/title_activity_notify_testing" >
         </activity>
+
+        <service
+            android:name="com.example.alebirthdayreminders2.NotificationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

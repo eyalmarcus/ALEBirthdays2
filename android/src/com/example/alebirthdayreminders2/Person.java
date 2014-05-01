@@ -10,6 +10,7 @@ public class Person implements Comparable<Person> {
 	private Date birthday;
 	private String name;
 	private String email;
+	private String image;
 	
 	/**
 	 * 
@@ -18,11 +19,12 @@ public class Person implements Comparable<Person> {
 	 * @param email - may be an empty string
 	 * @param birthday
 	 */
-	public Person(int id, String name, String email, Date birthday) {
+	public Person(int id, String name, String email, Date birthday, String image) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.birthday = birthday;
+		this.image = image;
 	}
 	
 	/**
@@ -31,10 +33,11 @@ public class Person implements Comparable<Person> {
 	 * @param email - may be an empty string
 	 * @param birthday
 	 */
-	public Person(String name, String email, Date birthday) {
+	public Person(String name, String email, Date birthday, String image) {
 		this.name = name;
 		this.email = email;
 		this.birthday = birthday;
+		this.image = image;
 	}
 	
 	public int getId() {
@@ -63,6 +66,14 @@ public class Person implements Comparable<Person> {
 	
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+	
+	public String getImageLocation() {
+		return this.image;
+	}
+	
+	public void setImageLocation(String image) {
+		this.image = image;
 	}
 	
 	/**

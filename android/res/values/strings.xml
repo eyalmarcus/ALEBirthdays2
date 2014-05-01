@@ -9,5 +9,6 @@
     <string name="title_activity_notify_testing">NotifyTestingActivity</string>
     <string name="person_save">Save</string>
     <string name="list_add_person_text">New person</string>
+    <string name="person_take_photo">Take photo</string>
 
 </resources>

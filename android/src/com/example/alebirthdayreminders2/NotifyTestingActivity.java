@@ -4,15 +4,13 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 public class NotifyTestingActivity extends Activity {
 
@@ -36,36 +34,22 @@ public class NotifyTestingActivity extends Activity {
 
 		AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-		        AlarmManager.INTERVAL_DAY, getPendingIntent());
+		        AlarmManager.INTERVAL_DAY, getPendingServiceIntent());
+
+		Toast.makeText(this, "Alarm scheduled", Toast.LENGTH_SHORT).show();
 	}
 
-	public void showNotification(View v) {
-		NotificationCompat.Builder mBuilder =
-			new NotificationCompat.Builder(this)
-				.setSmallIcon(R.drawable.notification_icon)
-				.setContentTitle("Birthday notification")
-				.setContentText("Your friend momo has a birthday")
-				.setContentIntent(getPendingIntent());
-
-		NotificationManager mNotificationManager =
-			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.notify(0, mBuilder.build());
+	public void activateService(View v) {
+		startService(getServiceIntent());
 	}
 
-	private Intent getEmailIntent() {
-		String uriText =
-		    "mailto:youremail@gmail.com" +
-		    "?subject=" + Uri.encode("Happy birthday! יום הולדת שמח");
-		Uri uri = Uri.parse(uriText);
-
-		Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-		sendIntent.setData(uri);
-
-		return sendIntent;
+	private PendingIntent getPendingServiceIntent() {
+		return PendingIntent.getService(
+				this, 0, getServiceIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
-	private PendingIntent getPendingIntent() {
-		return PendingIntent.getActivity(
-				this, 0, getEmailIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
+	private Intent getServiceIntent() {
+		return new Intent(this, NotificationService.class);
 	}
+
 }
