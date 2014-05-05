@@ -59,10 +59,12 @@ public class EditPerson extends Activity {
 	
 	void updateBirthday(Date date) {
 		EditPersonFragment fragment =
-				(EditPersonFragment)getFragmentManager().findFragmentById(R.id.edit_person_fragment);
+				(EditPersonFragment)getFragmentManager().findFragmentById(R.id.container);
 		if (fragment == null) {
+			Log.e("", "Not edit person fragment found");
 			return;
 		}
+		Log.e("", "Updating birth date");
 		fragment.updateBirthDate(date);
 	}
 }

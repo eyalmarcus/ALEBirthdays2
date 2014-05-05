@@ -43,6 +43,7 @@ public class EditPersonFragment extends Fragment {
 	
 	public void updateBirthDate(Date date) {
 		birthday = date;
+		birthdayText.setText(birthday.toString()); 
 	}
 	
 	// Loads the info of a person for editing.
@@ -67,8 +68,7 @@ public class EditPersonFragment extends Fragment {
 	
 	void populateInfo(Person person) {
 		nameField.setText(person.getName());
-		birthday = person.getBirthday();
-		birthdayText.setText(person.getBirthday().toString()); 
+		updateBirthDate(person.getBirthday());
 	}
 	
 	public void createNewPerson() {
@@ -171,6 +171,7 @@ public class EditPersonFragment extends Fragment {
 			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 			cal.set(year, month, day, 0, 0, 0);
 			EditPerson activity = (EditPerson) getActivity();
+			Log.e("", "Date is " + cal.getTime());
 			activity.updateBirthday(cal.getTime());
 		}
 		
