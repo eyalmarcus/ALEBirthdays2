@@ -37,10 +37,6 @@ public class EditPersonFragment extends Fragment {
 	
 	public EditPersonFragment() {}
 	
-	void setPersonProvider(PersonList personProvider) {
-		this.personProvider = personProvider;
-	}
-	
 	public void updateBirthDate(Date date) {
 		birthday = date;
 		birthdayText.setText(birthday.toString()); 
@@ -73,6 +69,13 @@ public class EditPersonFragment extends Fragment {
 	
 	public void createNewPerson() {
 		personId = null;
+		birthday = new Date();
+	}
+	
+	public void startPopulate() {
+		if (personId != null) {
+			loadPerson(personId);
+		}
 	}
 	
 	// Save the person's info.
@@ -117,6 +120,10 @@ public class EditPersonFragment extends Fragment {
 		*/
 	}
 
+	public void setPerson(Integer id) {
+		personId = id;
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -124,6 +131,9 @@ public class EditPersonFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_edit_person,
 				container, false);
 
+		EditPerson activity = (EditPerson)getActivity();
+		personProvider = activity.getPersonProvider();
+		
 		nameField = (EditText) rootView.findViewById(R.id.person_name);
 		birthdayText = (TextView) rootView.findViewById(R.id.person_birth_date);
 		saveButton = (Button) rootView.findViewById(R.id.person_save);
@@ -151,7 +161,8 @@ public class EditPersonFragment extends Fragment {
 			    newFragment.show(getFragmentManager(), "timePicker");;
 			}
 		});
-		
+
+		startPopulate();
 		
 		return rootView;
 	}

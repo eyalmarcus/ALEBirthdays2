@@ -28,17 +28,15 @@ public class ListPersonsFragment extends Fragment {
 	
 	public ListPersonsFragment() {}
 	
-	void setPersonProvider(PersonList personProvider) {
-		this.personProvider = personProvider;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_list_persons,
 				container, false);
 		listView = (ListView) rootView.findViewById(R.id.persons_list);
-		adapter = new PersonListAdapter(getActivity());
+		EditPerson activity = (EditPerson)getActivity();
+		personProvider = activity.getPersonProvider();
+		adapter = new PersonListAdapter(activity);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 

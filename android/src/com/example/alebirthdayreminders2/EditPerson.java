@@ -20,10 +20,8 @@ public class EditPerson extends Activity {
 		
 		// TODO(eyalma): Choose what to load based on intent.
 		if (savedInstanceState == null) {
-			ListPersonsFragment fragment = new ListPersonsFragment();
-			fragment.setPersonProvider(personProvider);
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, fragment).commit();			
+					.add(R.id.container, new ListPersonsFragment()).commit();			
 		}
 	}
 
@@ -45,12 +43,7 @@ public class EditPerson extends Activity {
 	void editPerson(Integer id) {
 		Fragment listFragment = getFragmentManager().findFragmentById(R.id.container);
 		EditPersonFragment editFragment = new EditPersonFragment();
-		editFragment.setPersonProvider(personProvider);
-		if (id != null) {
-			editFragment.loadPerson(id);
-		} else {
-			editFragment.createNewPerson();
-		}
+		editFragment.setPerson(id);
 		getFragmentManager().beginTransaction().addToBackStack("startEdit")
 			.remove(listFragment)
 			.add(R.id.container, editFragment)
@@ -66,5 +59,9 @@ public class EditPerson extends Activity {
 		}
 		Log.e("", "Updating birth date");
 		fragment.updateBirthDate(date);
+	}
+
+	public PersonList getPersonProvider() {
+		return personProvider;
 	}
 }
