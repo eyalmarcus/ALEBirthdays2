@@ -10,18 +10,33 @@ import android.util.Log;
 public class EditPerson extends Activity {
 	PersonList personProvider;
 	
+	private boolean showSideBySide() {
+		return getResources().getConfiguration().screenWidthDp > 400;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_person);
+		if (showSideBySide()) {
+			setContentView(R.layout.activity_side_by_side);
+		} else {
+			setContentView(R.layout.activity_edit_person);
+		}
 		
 		personProvider = new PersonList();
 		personProvider.initialize(this);
 		
 		// TODO(eyalma): Choose what to load based on intent.
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new ListPersonsFragment()).commit();			
+		if (savedInstanceState == null || true) {
+			if (showSideBySide()) {
+				getFragmentManager().beginTransaction()
+					.add(R.id.person_list_fragment, new ListPersonsFragment())
+					.add(R.id.person_edit_fragment, new EditPersonFragment())
+					.commit();			
+			} else {
+				getFragmentManager().beginTransaction()
+						.add(R.id.container, new ListPersonsFragment()).commit();
+			}
 		}
 	}
 
@@ -29,8 +44,16 @@ public class EditPerson extends Activity {
 		// TODO(eyalma): Close edit person fragment.
 		// TODO TODO
 		// TODO: If list fragment is visible, update it.
-		Log.e("", "popping stack");
-		getFragmentManager().popBackStack();
+		if (showSideBySide()) {
+			ListPersonsFragment listPersons =
+					(ListPersonsFragment)getFragmentManager().findFragmentById(R.id.person_list_fragment);
+			Log.e("", "Updating person");
+			listPersons.updatePerson(id);
+			
+		} else {
+			Log.e("", "popping stack");
+			getFragmentManager().popBackStack();
+		}
 		//getFragmentManager().
 //		ListPersonsFragment listPersons =
 //				(ListPersonsFragment)getFragmentManager().findFragmentById(R.id.persons_list);
@@ -41,18 +64,28 @@ public class EditPerson extends Activity {
 	
 	// If id is null, creates a new person
 	void editPerson(Integer id) {
-		Fragment listFragment = getFragmentManager().findFragmentById(R.id.container);
-		EditPersonFragment editFragment = new EditPersonFragment();
-		editFragment.setPerson(id);
-		getFragmentManager().beginTransaction().addToBackStack("startEdit")
-			.remove(listFragment)
-			.add(R.id.container, editFragment)
-			.commit();
+		if (showSideBySide()) {
+			EditPersonFragment editFragment =
+					(EditPersonFragment)getFragmentManager().findFragmentById(R.id.person_edit_fragment);
+			editFragment.loadPerson(id);
+		} else {
+			Fragment listFragment = getFragmentManager().findFragmentById(R.id.container);
+			EditPersonFragment editFragment = new EditPersonFragment();
+			editFragment.setPerson(id);
+			getFragmentManager().beginTransaction().addToBackStack("startEdit")
+				.remove(listFragment)
+				.add(R.id.container, editFragment)
+				.commit();
+		}
 	}
 	
 	void updateBirthday(Date date) {
-		EditPersonFragment fragment =
-				(EditPersonFragment)getFragmentManager().findFragmentById(R.id.container);
+		EditPersonFragment fragment;
+		if (showSideBySide()) {
+			 fragment = (EditPersonFragment)getFragmentManager().findFragmentById(R.id.person_edit_fragment);			
+		} else {
+		 fragment = (EditPersonFragment)getFragmentManager().findFragmentById(R.id.container);
+		}
 		if (fragment == null) {
 			Log.e("", "Not edit person fragment found");
 			return;

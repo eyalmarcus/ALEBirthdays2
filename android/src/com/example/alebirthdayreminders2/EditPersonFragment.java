@@ -41,7 +41,7 @@ public class EditPersonFragment extends Fragment {
 	
 	public void updateBirthDate(Date date) {
 		birthday = date;
-		birthdayText.setText(birthday.toString()); 
+		birthdayText.setText(birthday.toString());
 	}
 	
 	// Loads the info of a person for editing.
@@ -53,11 +53,13 @@ public class EditPersonFragment extends Fragment {
 
 			@Override
 			protected Person doInBackground(Integer... params) {
+				Log.e("", "Fetching person " + params[0]);
 				return personProvider.getPersonById(params[0]);
 			}
 
 			@Override
 			protected void onPostExecute(Person result) {
+				Log.e("", "Populating result");
 				populateInfo(result);
 			}
 			
@@ -71,7 +73,8 @@ public class EditPersonFragment extends Fragment {
 	
 	public void createNewPerson() {
 		personId = null;
-		updateBirthDate(new Date());
+		Person person = new Person("", "", new Date(), "");
+		populateInfo(person);
 	}
 	
 	public void startPopulate() {
@@ -97,18 +100,20 @@ public class EditPersonFragment extends Fragment {
 			person = new Person(name, email, birthday, image);
 			Log.e("", "Saving new person.");
 		}
-		new AsyncTask<Person, Void, Void>() {
+		new AsyncTask<Person, Void, Integer>() {
 			@Override
-			protected Void doInBackground(Person... params) {
+			protected Integer doInBackground(Person... params) {
+				Person person = params[0];
 				PersonList personList = new PersonList();
 				personList.initialize(getActivity());
-				personList.savePerson(params[0]);
-				return null;
+				personList.savePerson(person);
+				// TODO(eyalma): Handle the case where we don't know the id.
+				return Integer.valueOf(person.getId());
 			}
 
 			@Override
-			protected void onPostExecute(Void result) {
-				((EditPerson) getActivity()).personSaved(null);
+			protected void onPostExecute(Integer id) {
+				((EditPerson) getActivity()).personSaved(id);
 			}
 			
 			

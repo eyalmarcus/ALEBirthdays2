@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,6 +163,7 @@ public class ListPersonsFragment extends Fragment {
 	// Recalculates the list (e.g. if a name changed).
 	public void updatePerson(Integer id) {
 		if (id != null) {
+			Log.e("", "Invalidating cache for " + id);
 			adapter.invalidateCacheEntry(id);
 		}
 		adapter.notifyDataSetChanged();
