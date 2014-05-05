@@ -1,7 +1,13 @@
 package com.example.alebirthdayreminders2;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +17,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Fragment for editing a person's info.
@@ -20,14 +28,21 @@ public class EditPersonFragment extends Fragment {
 	Integer personId;
 	Person person;
 	EditText nameField;
+	TextView birthdayText;
+	Date birthday;
 	Button saveButton;
 	Button photoButton;
+	Button dateButton;
 	PersonList personProvider;
 	
 	public EditPersonFragment() {}
 	
 	void setPersonProvider(PersonList personProvider) {
 		this.personProvider = personProvider;
+	}
+	
+	public void updateBirthDate(Date date) {
+		birthday = date;
 	}
 	
 	// Loads the info of a person for editing.
@@ -52,6 +67,8 @@ public class EditPersonFragment extends Fragment {
 	
 	void populateInfo(Person person) {
 		nameField.setText(person.getName());
+		birthday = person.getBirthday();
+		birthdayText.setText(person.getBirthday().toString()); 
 	}
 	
 	public void createNewPerson() {
@@ -62,7 +79,7 @@ public class EditPersonFragment extends Fragment {
 	public void savePerson() {
 		String name = nameField.getEditableText().toString();
 		Log.e("", "Saving person with name " + name);
-		Date birthday = new Date();
+		
 		String image = "";
 		String email = "";
 		Person person;
@@ -108,7 +125,7 @@ public class EditPersonFragment extends Fragment {
 				container, false);
 
 		nameField = (EditText) rootView.findViewById(R.id.person_name);
-		nameField.setText("some text");
+		birthdayText = (TextView) rootView.findViewById(R.id.person_birth_date);
 		saveButton = (Button) rootView.findViewById(R.id.person_save);
 		saveButton.setOnClickListener(new OnClickListener() {
 			
@@ -125,8 +142,37 @@ public class EditPersonFragment extends Fragment {
 				getPersonPhoto();
 			}
 		});
+		dateButton = (Button) rootView.findViewById(R.id.person_change_date_button);
+		dateButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View button) {
+				DialogFragment newFragment = new DatePickerFragment();
+			    newFragment.show(getFragmentManager(), "timePicker");;
+			}
+		});
 		
 		
 		return rootView;
+	}
+	
+	public static class DatePickerFragment extends DialogFragment
+		implements DatePickerDialog.OnDateSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final Calendar c = Calendar.getInstance();
+			return new DatePickerDialog(getActivity(), this,
+					c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+		}
+
+		@Override
+		public void onDateSet(DatePicker picker, int year, int month, int day) {
+			Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+			cal.set(year, month, day, 0, 0, 0);
+			EditPerson activity = (EditPerson) getActivity();
+			activity.updateBirthday(cal.getTime());
+		}
+		
 	}
 }

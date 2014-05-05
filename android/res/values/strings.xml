@@ -10,5 +10,6 @@
     <string name="person_save">Save</string>
     <string name="list_add_person_text">New person</string>
     <string name="person_take_photo">Take photo</string>
-
+    <string name="person_change_birth_date">Change</string>
+    
 </resources>

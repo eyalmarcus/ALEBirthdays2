@@ -1,5 +1,7 @@
 package com.example.alebirthdayreminders2;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -53,5 +55,14 @@ public class EditPerson extends Activity {
 			.remove(listFragment)
 			.add(R.id.container, editFragment)
 			.commit();
+	}
+	
+	void updateBirthday(Date date) {
+		EditPersonFragment fragment =
+				(EditPersonFragment)getFragmentManager().findFragmentById(R.id.edit_person_fragment);
+		if (fragment == null) {
+			return;
+		}
+		fragment.updateBirthDate(date);
 	}
 }

@@ -22,10 +22,31 @@
         android:hint="@string/person_name_hint" />
 
     <TextView
-        android:id="@+id/person_birth_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/person_birth_date_label" />
+
+    <TextView
+        android:id="@+id/person_birth_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <Button
+        android:id="@+id/person_change_date_button" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/person_change_birth_date" />
+        />
+
+    
+    <DatePicker
+        android:id="@+id/person_birth_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:endYear="2014"
+        android:spinnersShown="true"
+        android:startYear="1920" />
 
     <!-- Change to ImageView. Add OnClick for changes -->
 
