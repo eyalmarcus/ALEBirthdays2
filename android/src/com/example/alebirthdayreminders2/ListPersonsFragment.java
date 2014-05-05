@@ -1,14 +1,13 @@
 package com.example.alebirthdayreminders2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,12 +61,12 @@ public class ListPersonsFragment extends Fragment {
 	
 	class PersonListAdapter extends BaseAdapter {
 		private List<Integer> ids;
-		private Map<Integer, Person> personCache;
+		private LruCache<Integer, Person> personCache;
 		Context context;
 		
 		PersonListAdapter(Context context) {
 			this.context = context;
-			personCache = new HashMap<Integer, Person>();
+			personCache = new LruCache<Integer, Person>(40);
 			ids = new ArrayList<Integer>();
 			refreshDataSet();
 		}
@@ -130,8 +129,8 @@ public class ListPersonsFragment extends Fragment {
 			} else {
 				entry = convertView;
 			}
-			if (personCache.containsKey(id)) {
-				Person person = personCache.get(id);
+			Person person = personCache.get(id);
+			if (person != null) {
 				((TextView) entry.findViewById(R.id.person_entry_name))
 					.setText(person.getName());
 				((TextView) entry.findViewById(R.id.person_entry_date))
