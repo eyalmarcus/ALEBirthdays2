@@ -19,7 +19,8 @@
         android:id="@+id/person_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/person_name_hint" />
+        android:hint="@string/person_name_hint"
+        android:inputType="textPersonName" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,9 +31,9 @@
         android:id="@+id/person_birth_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    
+
     <Button
-        android:id="@+id/person_change_date_button" 
+        android:id="@+id/person_change_date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/person_change_birth_date" />
