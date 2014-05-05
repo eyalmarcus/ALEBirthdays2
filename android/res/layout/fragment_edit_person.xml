@@ -10,42 +10,87 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.alebirthdayreminders2.EditPerson$PlaceholderFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/person_name_label" />
+        android:columnCount="1" >
 
-    <EditText
-        android:id="@+id/person_name"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:text="@string/person_name_label" />
+
+        <EditText
+            android:id="@+id/person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:hint="@string/person_name_hint"
+            android:inputType="textPersonName" />
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/person_name_hint"
-        android:inputType="textPersonName" />
+        android:columnCount="1" >
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="0"
+            android:text="@string/person_birth_date_label" />
+
+        <TextView
+            android:id="@+id/person_birth_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical" />
+
+        <Button
+            android:id="@+id/person_change_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="right|center_vertical"
+            android:layout_row="0"
+            android:text="@string/person_change_birth_date" />
+    </GridLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/person_birth_date_label" />
+        android:columnCount="1" >
 
-    <TextView
-        android:id="@+id/person_birth_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <!-- Change to ImageView. Add OnClick for changes -->
 
-    <Button
-        android:id="@+id/person_change_date_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/person_change_birth_date" />
-        />
+        <Button
+            android:id="@+id/person_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="right|top"
+            android:layout_row="0"
+            android:text="@string/person_take_photo" />
 
-    <!-- Change to ImageView. Add OnClick for changes -->
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="0"
+            android:contentDescription="@string/person_photo"
+            android:src="@drawable/birthday_launcher" />
+    </GridLayout>
 
-    <Button
-        android:id="@+id/person_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/person_take_photo" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <!-- TODO(eyalma): Move to action bar. -->
 
