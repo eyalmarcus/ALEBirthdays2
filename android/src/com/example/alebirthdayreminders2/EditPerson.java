@@ -6,16 +6,22 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class EditPerson extends Activity {
+	PersonList personProvider;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_person);
 		
+		personProvider = new PersonList();
+		personProvider.initialize(this);
+		
 		// TODO(eyalma): Choose what to load based on intent.
 		if (savedInstanceState == null) {
+			ListPersonsFragment fragment = new ListPersonsFragment();
+			fragment.setPersonProvider(personProvider);
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new ListPersonsFragment()).commit();			
+					.add(R.id.container, fragment).commit();			
 		}
 	}
 
@@ -37,6 +43,7 @@ public class EditPerson extends Activity {
 	void editPerson(Integer id) {
 		Fragment listFragment = getFragmentManager().findFragmentById(R.id.container);
 		EditPersonFragment editFragment = new EditPersonFragment();
+		editFragment.setPersonProvider(personProvider);
 		if (id != null) {
 			editFragment.loadPerson(id);
 		} else {

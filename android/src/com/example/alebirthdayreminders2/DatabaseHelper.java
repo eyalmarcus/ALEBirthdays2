@@ -61,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = populateValues(person);
+		Log.e("", "Inserting values " + values.toString());
 
 		// Inserting Row
 		db.insert(TABLE_NAME, null, values);

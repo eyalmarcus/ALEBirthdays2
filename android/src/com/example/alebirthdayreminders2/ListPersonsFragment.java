@@ -24,8 +24,13 @@ import android.widget.TextView;
 public class ListPersonsFragment extends Fragment {
 	PersonListAdapter adapter;
 	ListView listView;
+	PersonList personProvider;
 	
 	public ListPersonsFragment() {}
+	
+	void setPersonProvider(PersonList personProvider) {
+		this.personProvider = personProvider;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,15 +64,12 @@ public class ListPersonsFragment extends Fragment {
 	
 	class PersonListAdapter extends BaseAdapter {
 		private List<Integer> ids;
-		PersonList personProvider;
 		private Map<Integer, Person> personCache;
 		Context context;
 		
 		PersonListAdapter(Context context) {
 			this.context = context;
 			personCache = new HashMap<Integer, Person>();
-			personProvider = new PersonList();
-			personProvider.initialize(context);
 			ids = new ArrayList<Integer>();
 			refreshDataSet();
 		}
@@ -148,7 +150,7 @@ public class ListPersonsFragment extends Fragment {
 					protected void onPostExecute(Void result) {
 						notifyDataSetChanged();
 					}
-				};
+				}.execute(id);
 			}
 			
 			return entry;

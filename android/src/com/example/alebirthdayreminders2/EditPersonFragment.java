@@ -22,8 +22,12 @@ public class EditPersonFragment extends Fragment {
 	EditText nameField;
 	Button saveButton;
 	Button photoButton;
+	PersonList personProvider;
 	
-	public EditPersonFragment() {
+	public EditPersonFragment() {}
+	
+	void setPersonProvider(PersonList personProvider) {
+		this.personProvider = personProvider;
 	}
 	
 	// Loads the info of a person for editing.
@@ -35,9 +39,7 @@ public class EditPersonFragment extends Fragment {
 
 			@Override
 			protected Person doInBackground(Integer... params) {
-				PersonList personList = new PersonList();
-				personList.initialize(getActivity());
-				return personList.getPersonById(params[0]);
+				return personProvider.getPersonById(params[0]);
 			}
 
 			@Override
