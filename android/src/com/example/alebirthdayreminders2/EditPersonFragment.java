@@ -35,7 +35,9 @@ public class EditPersonFragment extends Fragment {
 	Button dateButton;
 	PersonList personProvider;
 	
-	public EditPersonFragment() {}
+	public EditPersonFragment() {
+		birthday = new Date();
+	}
 	
 	public void updateBirthDate(Date date) {
 		birthday = date;

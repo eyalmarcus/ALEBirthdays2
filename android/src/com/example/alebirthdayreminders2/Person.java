@@ -18,6 +18,7 @@ public class Person implements Comparable<Person> {
 	 * @param name
 	 * @param email - may be an empty string
 	 * @param birthday
+	 * @param image - location for image
 	 */
 	public Person(int id, String name, String email, Date birthday, String image) {
 		this.id = id;
@@ -32,6 +33,7 @@ public class Person implements Comparable<Person> {
 	 * @param name
 	 * @param email - may be an empty string
 	 * @param birthday
+	 * @param image - location for image
 	 */
 	public Person(String name, String email, Date birthday, String image) {
 		this.name = name;

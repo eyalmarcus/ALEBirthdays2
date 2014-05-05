@@ -37,10 +37,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + FIELD_ID
 				+ " INTEGER PRIMARY KEY," + FIELD_NAME + " TEXT," + FIELD_EMAIL
-				+ " TEXT," + FIELD_BIRTHDAY + " TEXT, " 
-				+ FIELD_IMAGE + " TEXT );";
+				+ " TEXT," + FIELD_BIRTHDAY + " TEXT, " + FIELD_IMAGE
+				+ " TEXT );";
 		db.execSQL(CREATE_TABLE);
 	}
 
@@ -73,8 +74,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_NAME, new String[] { FIELD_ID,
-				FIELD_NAME, FIELD_EMAIL, FIELD_BIRTHDAY, FIELD_IMAGE }, FIELD_ID + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
+				FIELD_NAME, FIELD_EMAIL, FIELD_BIRTHDAY, FIELD_IMAGE },
+				FIELD_ID + "=?", new String[] { String.valueOf(id) }, null,
+				null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -88,20 +90,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return runSelectAndReturnList(selectQuery);
 	}
-	
+
 	public ArrayList<Person> getAllPersonsByName() {
-		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + FIELD_NAME;
+		String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY "
+				+ FIELD_NAME;
 
 		return runSelectAndReturnList(selectQuery);
 	}
-	
+
 	public ArrayList<Person> getPersonsForBirthday(Date date) {
-		String selectQuery = "SELECT * FROM " + TABLE_NAME
-				+ " WHERE " + FIELD_BIRTHDAY + " == " + sdf.format(date);
+		String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+				+ FIELD_BIRTHDAY + " == " + sdf.format(date);
 
 		return runSelectAndReturnList(selectQuery);
 	}
-	
+
 	private ArrayList<Person> runSelectAndReturnList(String selectQuery) {
 		ArrayList<Person> personList = new ArrayList<Person>();
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -181,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		return person;
 	}
-	
+
 	private ContentValues populateValues(Person person) {
 		ContentValues values = new ContentValues();
 		values.put(FIELD_NAME, person.getName()); // Person name
