@@ -166,6 +166,7 @@ public class ListPersonsFragment extends Fragment {
 			Log.e("", "Invalidating cache for " + id);
 			adapter.invalidateCacheEntry(id);
 		}
-		adapter.notifyDataSetChanged();
+		Log.e("", "Refreshing display");
+		adapter.refreshDataSet();
 	}
 }

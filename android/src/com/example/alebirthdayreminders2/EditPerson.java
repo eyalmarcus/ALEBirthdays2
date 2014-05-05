@@ -27,7 +27,7 @@ public class EditPerson extends Activity {
 		personProvider.initialize(this);
 		
 		// TODO(eyalma): Choose what to load based on intent.
-		if (savedInstanceState == null || true) {
+		if (savedInstanceState == null) {
 			if (showSideBySide()) {
 				getFragmentManager().beginTransaction()
 					.add(R.id.person_list_fragment, new ListPersonsFragment())
@@ -48,8 +48,7 @@ public class EditPerson extends Activity {
 			ListPersonsFragment listPersons =
 					(ListPersonsFragment)getFragmentManager().findFragmentById(R.id.person_list_fragment);
 			Log.e("", "Updating person");
-			listPersons.updatePerson(id);
-			
+			listPersons.updatePerson(id);		
 		} else {
 			Log.e("", "popping stack");
 			getFragmentManager().popBackStack();
@@ -66,8 +65,12 @@ public class EditPerson extends Activity {
 	void editPerson(Integer id) {
 		if (showSideBySide()) {
 			EditPersonFragment editFragment =
-					(EditPersonFragment)getFragmentManager().findFragmentById(R.id.person_edit_fragment);
-			editFragment.loadPerson(id);
+				(EditPersonFragment)getFragmentManager().findFragmentById(R.id.person_edit_fragment);
+			if (id != null) {
+				editFragment.loadPerson(id);
+			} else {
+				editFragment.createNewPerson();
+			}
 		} else {
 			Fragment listFragment = getFragmentManager().findFragmentById(R.id.container);
 			EditPersonFragment editFragment = new EditPersonFragment();
