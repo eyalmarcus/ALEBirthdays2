@@ -37,7 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + FIELD_ID
 				+ " INTEGER PRIMARY KEY," + FIELD_NAME + " TEXT," + FIELD_EMAIL
 				+ " TEXT," + FIELD_BIRTHDAY + " TEXT, " + FIELD_IMAGE
