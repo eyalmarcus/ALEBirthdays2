@@ -136,6 +136,8 @@ public class ListPersonsFragment extends Fragment {
 				Person person = personCache.get(id);
 				((TextView) entry.findViewById(R.id.person_entry_name))
 					.setText(person.getName());
+				((TextView) entry.findViewById(R.id.person_entry_date))
+					.setText(person.getBirthday().toString());
 			} else {
 				new AsyncTask<Integer, Void, Void>() {
 
