@@ -69,12 +69,14 @@ public class EditPersonFragment extends Fragment {
 	
 	public void createNewPerson() {
 		personId = null;
-		birthday = new Date();
+		updateBirthDate(new Date());
 	}
 	
 	public void startPopulate() {
 		if (personId != null) {
 			loadPerson(personId);
+		} else {
+			createNewPerson();
 		}
 	}
 	
