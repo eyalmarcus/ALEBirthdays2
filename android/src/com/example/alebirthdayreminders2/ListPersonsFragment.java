@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,8 +134,9 @@ public class ListPersonsFragment extends Fragment {
 			if (person != null) {
 				((TextView) entry.findViewById(R.id.person_entry_name))
 					.setText(person.getName());
+				
 				((TextView) entry.findViewById(R.id.person_entry_date))
-					.setText(person.getBirthday().toString());
+					.setText(DateFormat.format("dd/MM/yyyy", person.getBirthday()));
 			} else {
 				new AsyncTask<Integer, Void, Void>() {
 
